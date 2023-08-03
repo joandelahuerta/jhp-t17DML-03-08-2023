@@ -1,0 +1,39 @@
+create database `Ejercicio01`;
+use Ejercicio01;
+
+create table Fabricantes (
+Codigo int,
+Nombre nvarchar(100),
+PRIMARY KEY (Codigo)
+);
+create table Articulos (
+Codigo int,
+Nombre nvarchar(100),
+Precio int,
+Fabricante int,
+PRIMARY KEY (Codigo),
+FOREIGN KEY (Fabricante) REFERENCES Fabricantes(Codigo)
+ON DELETE cascade
+ON UPDATE cascade
+);
+
+select Nombre from Articulos;
+select Nombre, Precio from Articulos;
+select Nombre from Articulos Where Precio <= 200;
+select * from Articulos where Pecio between 60 and 120;
+select Nombre, Precio * 166.386 as Pesetas from Articulos;
+select avg(Precio) as Promedio from Articulos;
+select avg(Precio) as Promedio from Articulos where Fabricante = 2;
+select count(*) as NumeroArticulos from Articulos where Pecio >= 180;
+select Nombre, Precio from Articulos where Precio >= 180 order by Precio desc, Nombre asc;
+select a.Codigo as CodigoArticulo, a.Nombre as NombreArticulo, a.Precio as PrecioArticulo, f.Codigo as CodigoFabricante, f.Nombre as NombreFabricante from Articulos as a inner join Fabricantes as f on a.Fabricante = f.Codigo;
+select a.Nombre as NombreArticulo, a.Precio as PrecioArticulo, f.Nombre as NombreFabricante from Articulos as a inner join Fabricantes as f on a.Fabricante = f.Codigo;
+select Fabricante as CodigoFabricante, avg(Precio) as PrecioMedio from Articulos group by Fabricante;
+select f.Nombre as NombreFabricante, avg(a.Precio) as PrecioMedio from Articulos as a inner join Fabricantes as f on a.Fabricante = f.Codigo group by f.Nombre;
+select f.Nombre as NombreFabricante from Articulos as a inner join Fabricantes as f on a.Fabricante = f.Codigo group by f.Codigo, f.Nombre having avg(a.Precio) >= 150;
+select Nombre, Precio from Articulos order by Precio asc limit 1;
+select f.Nombre as NombreProveedor, a.Nombre as NombreArticulo, a.Precio as PrecioArticulo from Articulos as a inner join Fabricantes as f on a.Fabricante = f.Codigo where (a.Fabricante, a.Precio) in (select Fabricante, max(Precio) as MaxPrecio from Articulos group by Fabricante) order by f.Nombre;
+insert into Articulos (Codigo, Nombre, Precio, Fabricante) values (21, 'Altavoces', 70, 2);
+update Articulos set Nombre = 'Impresora Laser' where Codigo = 8;
+update Articulos set Precio = PRECIO * 0.9;
+update Articulos set Precio = Precio - 10 where Precio >= 120;
