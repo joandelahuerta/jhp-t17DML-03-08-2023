@@ -33,10 +33,10 @@ select e.Nombre, e.Apellidos, d.Nombre as NombreDepartamento, d.Presupuesto from
 select e.Nombre, e.Apellidos from empleados as e join Departamentos as d on e.Departamento = d.Codigo where d.Presupuesto > 60000;
 select * from Departamentos where Presupuesto > (select avg(Presupuesto) from Departamentos);
 select d.Nombre as NombreDepartamento from empleados as e join Departamentos as d on e.Departamento = d.Codigo group by d.Nombre having count(*) > 2;
-INSERT into Departamentos (Codigo, Nombre, Presupuesto) values (11, 'Calidad', 40000);
-INSERT into empleados (DNI, Nombre, Apellidos, Departamento) values (89267109, 'Esther', 'Vazquez', 11);
-UPDATE Departamentos set Presupuesto = Presupuesto * 0.9;
-UPDATE empleados set Departamento = 14 where Departamento = 77;
-DELETE from empleados where Departamento = 14;
-DELETE from empleados where Departamento IN (select Codigo from Departamentos where Presupuesto > 60000);
-DELETE from empleados;
+insert into Departamentos (Codigo, Nombre, Presupuesto) values (11, 'Calidad', 40000);
+insert into empleados (DNI, Nombre, Apellidos, Departamento) values (89267109, 'Esther', 'Vazquez', 11);
+update Departamentos set Presupuesto = Presupuesto * 0.9;
+update empleados set Departamento = 14 where Departamento = 77;
+delete from empleados where Departamento = 14;
+delete from empleados where Departamento IN (select Codigo from Departamentos where Presupuesto > 60000);
+delete from empleados;
