@@ -14,7 +14,7 @@ Apellidos nvarchar(255),
 Departamento int,
 Fabricante int,
 PRIMARY KEY (DNI),
-ForEIGN KEY (Departamento) REFERENCES Departamentos(Codigo)
+FOREIGN KEY (Departamento) REFERENCES Departamentos(Codigo)
 on DELETE cascade
 on UPDATE cascade
 );
