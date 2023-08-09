@@ -1,0 +1,30 @@
+create database `Ejercicio04`;
+use Ejercicio04;
+
+create table Peliculas (
+Codigo int not null,
+Nombre nvarchar(100),
+CalificacionEdad int,
+PRIMARY KEY (Codigo)
+);
+create table Salas (
+Codigo int not null,
+Nombre nvarchar(100),
+Pelicula int,
+PRIMARY KEY (Codigo),
+Foreign KEY (Pelicula) REFERENCES Peliculas(Codigo)
+on delete cascade
+on update cascade
+);
+
+select Nombre from Peliculas;
+select distinct CalificacionEdad from Peliculas;
+select * from Peliculas where CalificacionEdad is null;
+select s.* from salas s left join Peliculas p on s.Codigo = p.Pelicula where p.Pelicula is null;
+select s.*, p.Nombre as Pelicula, p.CalificacionEdad from salas s left join Peliculas p on s.Pelicula = p.Codigo;
+select p.*, s.Nombre as Sala, s.Codigo as Codigo_Sala from Peliculas p left join salas s on p.Codigo = s.Pelicula;
+select p.Nombre from Peliculas p left join salas s on p.Codigo = s.Pelicula where s.Codigo is null;
+insert into Peliculas (Codigo, Nombre, CalificacionEdad)
+values (20, 'Uno, Dos, Tres', 'PG');
+update Peliculas set CalificacionEdad = 'no recomendable para menores de 13 años' where CalificacionEdad is null;
+delete from salas where Pelicula IN ( select Codigo from Peliculas where CalificacionEdad = 'G');
