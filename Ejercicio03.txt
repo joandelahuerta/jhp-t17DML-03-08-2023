@@ -1,0 +1,36 @@
+create database `Ejercicio03`;
+use Ejercicio03;
+
+create table Almacenes (
+Codigo int not null auto_increment,
+Lugar nvarchar(100),
+Capacidad int,
+PRIMARY KEY (Codigo)
+);
+create table Cajas (
+NumReferencia char(5),
+Contenido nvarchar(100),
+Valor int,
+Almacen int,
+PRIMARY KEY (DNI),
+Foreign KEY (NumReferencia) REFERENCES Almacenes(Codigo)
+on delete cascade
+on update cascade
+);
+
+select * from Almacenes;
+select * from Cajas where Valor > 150;
+select distinct Contenido from Cajas;
+select avg(Valor) as ValorMedio from Cajas;
+select Almacen, avg(Valor) as ValorMedioCajas from Cajas group by Almacen;
+select Almacen from Cajas group by Almacen having avg(Valor) > 150;
+select c.NumReferencia, a.Lugar as Ciudad from Cajas c JOin Almacenes a on c.Almacen = a.Codigo;
+select Almacen, count(*) as NumeroDeCajas from Cajas group by Almacen;
+select Codigo from Almacenes where Codigo in ( select Almacen from Cajas group by Almacen having count(*) > Capacidad );
+select c.NumReferencia from Cajas c JOin Almacenes a on c.Almacen = a.Codigo where a.Lugar = 'Bilbao';
+insert into Almacenes (Lugar, Capacidad) values (Barcelona', 3);
+insert into Cajas (NumReferencia, Contenido, Valor, Almacen) values ('H5RT', 'Papel', 200, 2);
+update Cajas set Valor = Valor * 0.85;
+update Cajas set Valor = Valor * 0.8 where Valor > (select avg(Valor) from Cajas);
+delete from Cajas where Valor < 100;
+delete from Cajas where Almacen in ( select Almacen from Cajas group by Almacen having count(*) > ( select Capacidad from Almacenes where Codigo = Cajas.Almacen ));
